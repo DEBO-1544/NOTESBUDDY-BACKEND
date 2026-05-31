@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+ model User {
+   id  String @id @default (cuid())
+   clerkid String @unique
+   name String
+    email String @unique
+   
+    avatarUrl String ?
+    username String @unique
+    institutename Institute
+    presentyear CurrentYear
+    stream Stream
+    semester Sem
+    level Int @default(1)
+    Stage String  @default("Ninija")
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+ }
+
+ enum Institute{
+  MSIT
+ }
+ enum CurrentYear{
+  First
+  Second
+  Third
+  Fourth
+  
+ }
+ enum Sem {
+  First
+  Second
+  Third
+  Fourth
+  Fifth
+  Sixth
+  Seventh
+  Eighth  
+ }
+ enum Stream {
+  CSE
+  CSBS
+  IT
+  ECE
+  EE
+  ME
+  CE
+
+  AIML
+  AIDS
+  DS
+  CYBER_SECURITY
+  IOT
+}
