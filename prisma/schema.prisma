@@ -24,11 +24,41 @@ datasource db {
     presentyear CurrentYear
     stream Stream
     semester Sem
+    Notes Note[]
+    Doutes Dout[]
     level Int @default(1)
-    Stage String  @default("Ninija")
+    Stage Stage  @default(Ninija)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+ }
+ model Note{
+   id String @id @default (cuid())
+   title String 
+   subject String
+   description String?
+   forsem Sem
+    forstream Stream
+      uploader User @relation(fields: [uploaderId], references: [id])
+   uploaderId String
+    
+    douts Dout[]
+    fileurl String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    @@index([subject,forsem,forstream])
+ }
+ model Dout{
+   id String @id @default (cuid())
+    title String
+    description String?
+    noteid Note @relation(fields: [notesid], references: [id])
+     notesid String
+     user User @relation(fields: [userid], references: [id])
+
+     userid String
+     
+    
  }
 
  enum Institute{
@@ -40,6 +70,11 @@ datasource db {
   Third
   Fourth
   
+ }
+ enum Stage{
+  Ninija
+  Pro
+  Master
  }
  enum Sem {
   First

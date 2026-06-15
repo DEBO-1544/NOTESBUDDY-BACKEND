@@ -28,8 +28,11 @@ const Onboarding= async(req:Request,res:Response)=>{
             
         },
         select:{
-            id:true,
-            clerkid:true,
+           institutename:true,
+            presentyear:true,
+            stream:true,
+            semester:true,
+            username:true,
 
         }
       })
