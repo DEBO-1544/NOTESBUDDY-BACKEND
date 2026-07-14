@@ -1,4 +1,4 @@
-import {supabase} from './supbase.config.js';
+import {supabase} from './supbase.config.ts';
 import {randomUUID} from "crypto"
 const uploadFile = async (file:Express.Multer.File) => {
     

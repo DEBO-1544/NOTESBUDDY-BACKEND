@@ -1,4 +1,4 @@
-import {supabase} from "./supbase.config.js";
+import {supabase} from "./supbase.config.ts";
 
 const UploadedUrl=async(file :any)=>{
 

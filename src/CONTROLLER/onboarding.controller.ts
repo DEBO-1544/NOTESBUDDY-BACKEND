@@ -1,5 +1,7 @@
-import {prisma} from '../DB/db.js';
+import {prisma} from '../DB/db.ts';
 import type {Request, Response} from 'express';
+import { ErrorApi } from '../UTILITES/error.api.ts';
+import { SucessApi } from '../UTILITES/sucess.api.ts';
 const Onboarding= async(req:Request,res:Response)=>{
 
     try{
@@ -7,11 +9,12 @@ const Onboarding= async(req:Request,res:Response)=>{
       let { avatarUrl}= req.body;
 
       if(!clerkid || !name || !email ||!institutename || !presentyear || !stream || !semester || !username){
-
-        return res.status(400).json({message:"Incomplete data provided"});
+         return res.status(400).json(new ErrorApi("Incomplete data provided", 400, null));
       }
+
+      
        if(!avatarUrl){
-        avatarUrl= avatarUrl||"NA"
+        avatarUrl= avatarUrl||"https://nbylpeyipmxdofvgixjb.supabase.co/storage/v1/object/public/AVATAR/user.png"
        }
 
       const User= await prisma.user.create({
@@ -36,18 +39,16 @@ const Onboarding= async(req:Request,res:Response)=>{
 
         }
       })
-        return res.status(201).json({message:"User created successfully", user:User})
+        return res.status(201).json(new SucessApi("User created successfully", 201, User))
 
 
     }catch(error:any){
 
          if (error.code === "P2002") {
-      return res.status(409).json({
-        message: "Username, email, or Clerk ID already exists",
-      });
+      return res.status(409).json(new ErrorApi("User already exists", 409, "Username, email, or Clerk ID already exists"));
     }
 
-        return res.status(500).json({message:"Internal server error", error:error})
+        return res.status(500).json(new ErrorApi("Internal server error", 500, error))
         
     }
 
